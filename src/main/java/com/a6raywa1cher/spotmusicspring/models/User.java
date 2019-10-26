@@ -16,6 +16,9 @@ public class User {
 	private String name;
 
 	@Column
+	private String photo;
+
+	@Column
 	private String phoneNumber;
 
 	@Column

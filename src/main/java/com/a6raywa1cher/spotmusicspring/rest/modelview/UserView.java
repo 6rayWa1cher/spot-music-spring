@@ -10,6 +10,7 @@ public class UserView {
 	private Long id;
 	private String name;
 	private String phoneNumber;
+	private String photo;
 	private Boolean completeRegistration;
 	private String description;
 	private String socialUrl;

@@ -4,13 +4,14 @@ import com.a6raywa1cher.spotmusicspring.dao.repositories.UserRepository;
 import com.a6raywa1cher.spotmusicspring.models.User;
 import com.a6raywa1cher.spotmusicspring.rest.converter.UserConverter;
 import com.a6raywa1cher.spotmusicspring.rest.modelview.UserView;
+import com.a6raywa1cher.spotmusicspring.rest.request.PutUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
@@ -30,6 +31,16 @@ public class UserController {
 		}
 		return ResponseEntity.ok(userConverter.convert(optionalUser.get()));
 	}
-//
-//	public ResponseEntity<>
+
+	@PutMapping("/")
+	public ResponseEntity<UserView> put(@RequestBody @Valid PutUser dto, Authentication authentication) {
+		User user = (User) authentication.getPrincipal();
+		user.setName(dto.getName());
+		user.setCompleteRegistration(true);
+		user.setDescription(dto.getDescription());
+		user.setSocialUrl(dto.getSocialUrl());
+		user.setPhoto(dto.getPhoto());
+		User saved = repository.save(user);
+		return ResponseEntity.ok(userConverter.convert(saved));
+	}
 }

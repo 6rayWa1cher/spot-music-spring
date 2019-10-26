@@ -22,6 +22,7 @@ public class UserConverter implements Converter<User, UserView> {
 		userView.setSocialUrl(user.getSocialUrl());
 		userView.setEvents(user.getEvents().stream().map(Event::getId).collect(Collectors.toList()));
 		userView.setSongs(user.getSongs().stream().map(Song::getId).collect(Collectors.toList()));
+		userView.setPhoto(user.getPhoto());
 		return userView;
 	}
 }
