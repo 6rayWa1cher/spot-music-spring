@@ -1,0 +1,23 @@
+app:
+  jwt: AAAAIC3pGCscc711agFjXOM9edMwnvYMDUEeII52B
+
+spring:
+  data:
+    rest:
+      basePath: /rapi
+# ===============================
+# DB CONNECTION
+# ===============================
+spring.datasource.url: jdbc:postgresql://localhost:5434/spot-music
+spring.datasource.username: postgres
+spring.datasource.password: postgres
+# ===============================
+# JPA / HIBERNATE
+# ===============================
+spring.jpa.show-sql: true
+spring.jpa.hibernate.ddl-auto: update
+spring.jpa.properties.hibernate.default_schema: public
+spring.jpa.properties.hibernate.dialect: org.hibernate.dialect.PostgreSQL9Dialect
+spring.jpa.properties.hibernate.current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+spring.jpa.properties.hibernate.enable_lazy_load_no_trans: true
+spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults: false
