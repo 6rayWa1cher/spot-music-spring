@@ -2,6 +2,7 @@ package com.a6raywa1cher.spotmusicspring.rest;
 
 import com.a6raywa1cher.spotmusicspring.dao.repositories.EventRepository;
 import com.a6raywa1cher.spotmusicspring.dao.repositories.SongRepository;
+import com.a6raywa1cher.spotmusicspring.dao.repositories.UserRepository;
 import com.a6raywa1cher.spotmusicspring.models.Event;
 import com.a6raywa1cher.spotmusicspring.models.Song;
 import com.a6raywa1cher.spotmusicspring.models.User;
@@ -35,6 +36,8 @@ public class EventController {
 
 	@Autowired
 	SongRepository songRepository;
+	@Autowired
+	UserRepository userRepository;
 
 	@GetMapping("/all")
 	public ResponseEntity<List<EventView>> getAllEvents(Pageable pageable) {
@@ -82,5 +85,15 @@ public class EventController {
 		event.setMoney(event.getMoney().add(dto.getMoney()));
 		Event saved = repository.save(event);
 		return ResponseEntity.ok(eventConverter.convert(saved));
+	}
+
+	@GetMapping("/user/{id}")
+	public ResponseEntity<List<EventView>> getByUser(@PathVariable Long id) {
+		Optional<User> user = userRepository.findById(id);
+		if (!user.isPresent()) {
+			return ResponseEntity.notFound().build();
+		}
+		User user1 = user.get();
+		return ResponseEntity.ok(user1.getEvents().stream().map(eventConverter::convert).collect(Collectors.toList()));
 	}
 }

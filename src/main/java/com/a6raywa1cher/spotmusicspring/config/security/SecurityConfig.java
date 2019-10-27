@@ -40,6 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/auth/firebase", "/auth/account-kit", "/auth/login", "/auth/test",
 						"/auth/test_jwt", "/v2/api-docs", "/swagger**", "/configuration/**",
 						"/events/all", "/events/id/**", "/songs/id/**", "/users/**",
+						"/events/user/{id}", "/songs/user/{id}",
 						"/swagger-resources/**", "/webjars/**").permitAll()
 				.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 				.anyRequest().authenticated();

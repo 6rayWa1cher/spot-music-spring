@@ -1,6 +1,7 @@
 package com.a6raywa1cher.spotmusicspring.rest;
 
 import com.a6raywa1cher.spotmusicspring.dao.repositories.SongRepository;
+import com.a6raywa1cher.spotmusicspring.dao.repositories.UserRepository;
 import com.a6raywa1cher.spotmusicspring.models.Song;
 import com.a6raywa1cher.spotmusicspring.models.User;
 import com.a6raywa1cher.spotmusicspring.rest.converter.SongConverter;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/songs")
@@ -24,6 +27,9 @@ public class SongController {
 
 	@Autowired
 	SongConverter songConverter;
+
+	@Autowired
+	UserRepository userRepository;
 
 	@GetMapping("/id/{id}")
 	public ResponseEntity<SongView> getById(@PathVariable Long id) {
@@ -46,4 +52,15 @@ public class SongController {
 		Song saved = repository.save(song);
 		return ResponseEntity.ok(songConverter.convert(saved));
 	}
+
+	@GetMapping("/user/{id}")
+	public ResponseEntity<List<SongView>> getByUser(@PathVariable Long id) {
+		Optional<User> user = userRepository.findById(id);
+		if (!user.isPresent()) {
+			return ResponseEntity.notFound().build();
+		}
+		User user1 = user.get();
+		return ResponseEntity.ok(user1.getSongs().stream().map(songConverter::convert).collect(Collectors.toList()));
+	}
+
 }
